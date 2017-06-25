@@ -1,9 +1,16 @@
 package pom.pages.flightreservation;
 
+import java.util.concurrent.TimeUnit;
+
+import org.omg.CORBA.TIMEOUT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class pom_flight_reservation_page 
@@ -21,6 +28,7 @@ public class pom_flight_reservation_page
 	By	selectTodate	=	By.xpath("//*[@id='flight-returning']");
 	
 	By	selectSearch	=	By.xpath("//*[@id='search-button']");
+	By 	autosearchcomp	=	By.xpath(".//*[@id='acol-interstitial']/div");
 	
 	public pom_flight_reservation_page(WebDriver driver)
 	{
@@ -29,11 +37,11 @@ public class pom_flight_reservation_page
 	
 	public void setFlight()
 	{
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		try {
 			WebElement flight_elem = driver.findElement(selectFlight);
 			flight_elem.click();
 		} catch (NoSuchElementException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -44,22 +52,27 @@ public class pom_flight_reservation_page
 			WebElement autoselect_elem = driver.findElement(autoselect);
 			autoselect_elem.click();
 		} catch (NoSuchElementException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void setDeparture(String strdepart)
-	{
-		WebElement departure_elem =  driver.findElement(selectDeparture);
-		departure_elem.clear();
+	{	
+		new WebDriverWait(driver, 10).ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(selectDeparture));
+	
+		WebElement departure_elem = driver.findElement(selectDeparture);
 		departure_elem.sendKeys(strdepart);
 	}
 	public void setDest(String strdest)
 	{
-		WebElement dest_elem =  driver.findElement(selectDest);
-		dest_elem.clear();
-		dest_elem.sendKeys(strdest);
+		try {
+			WebElement dest_elem =  driver.findElement(selectDest);
+			dest_elem.clear();
+			dest_elem.sendKeys(strdest);
+		} catch (StaleElementReferenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void setFromdate(String strfromdate)
 	{
@@ -79,15 +92,26 @@ public class pom_flight_reservation_page
 		search_elem.click();
 	}
 	
+	public void getPrice()
+	{
+		new WebDriverWait(driver, 20).until(ExpectedConditions.invisibilityOfElementLocated(autosearchcomp));
+		
+		String price=driver.findElement(By.xpath("//div[2]/div/div[2]/div/div/div[1]/span[contains(@class, 'visuallyhidden')]")).getText().replace("$", "").replaceAll(",", "");;
+		double dprice=Double.parseDouble(price);
+		System.out.println(dprice);
+	}
+
+	
 	public void final_flight_reservation()
 	{
 		setFlight();
-		setDeparture("goa");
+		setDeparture("sfo");
 		setAutoselect();
-		setDest("ahmedabad");
+		setDest("canada");
 		setAutoselect();
-		setFromdate("06/20/2017");
-		setTodate("06/22/2017");
+		setFromdate("06/25/2017");
+		setTodate("06/26/2017");
 		setSelectsearch();
+		getPrice();
 	}
 }
