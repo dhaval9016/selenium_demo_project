@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="262884" started-at="2017-07-04T17:07:46Z" finished-at="2017-07-04T17:12:09Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="262884" started-at="2017-07-04T17:07:46Z" finished-at="2017-07-04T17:12:09Z">
+      <class name="tests_pf.flightreservation_test">
+        <test-method status="PASS" signature="flightreservation_call()[pri:0, instance:tests_pf.flightreservation_test@be2bc2]" name="flightreservation_call" duration-ms="262797" started-at="2017-07-04T22:37:46Z" finished-at="2017-07-04T22:42:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- flightreservation_call -->
+      </class> <!-- tests_pf.flightreservation_test -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
