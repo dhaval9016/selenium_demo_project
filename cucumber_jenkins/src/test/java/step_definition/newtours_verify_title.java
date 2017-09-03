@@ -46,6 +46,7 @@ public class newtours_verify_title {
 //		String actualtitle = "Find a Flight: Mercury Tours: ";
 		
 		 Assert.assertEquals("Find a Flight: Mercury Tours:",driver.getTitle());
+		 System.out.println("title verified");
 
 		driver.close();
 	    
